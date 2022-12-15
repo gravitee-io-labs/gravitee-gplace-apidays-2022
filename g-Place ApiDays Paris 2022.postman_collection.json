@@ -1,0 +1,392 @@
+{
+	"info": {
+		"_postman_id": "0f1380ec-57c7-4a64-8f21-ce105ef73f40",
+		"name": "g/Place ApiDays Paris 2022",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18442506"
+	},
+	"item": [
+		{
+			"name": "Create the API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"api\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"g/Place (aka Pixel War) - ApiDays Paris 2022\",\n    \"apiVersion\": \"1.0.4\",\n    \"definitionVersion\": \"4.0.0\",\n    \"type\": \"async\",\n    \"description\": \"Demo of HTTP Post + SSE + Kafka\",\n    \"visibility\": \"PUBLIC\",\n    \"listeners\": [\n        {\n            \"type\": \"http\",\n            \"cors\": {\n                \"enabled\": true,\n                \"allowOrigin\": [\n                    \"*\"\n                ],\n                \"allowHeaders\": [\n                    \"X-Gravitee-Api-Key\"\n                ],\n                \"allowMethods\": [\n                    \"GET\",\n                    \"POST\",\n                    \"OPTIONS\"\n                ],\n                \"exposeHeaders\": [\n                    \"X-Rate-Limit-Limit\",\n                    \"X-Rate-Limit-Remaining\",\n                    \"X-Rate-Limit-Reset\"\n                ]\n            },\n            \"paths\": [\n                {\n                    \"path\": \"/demo/gplace\"\n                }\n            ],\n            \"entrypoints\": [\n                {\n                    \"type\": \"http-post\"\n                },\n                {\n                    \"type\": \"sse\",\n                    \"configuration\": {\n                        \"heartbeatIntervalInMs\": 5000\n                    }\n                }\n            ]\n        }\n    ],\n    \"endpointGroups\": [\n        {\n            \"name\": \"Local Kafka broker\",\n            \"type\": \"kafka\",\n            \"endpoints\": [\n                {\n                    \"name\": \"default\",\n                    \"type\": \"kafka\",\n                    \"configuration\": {\n                        \"bootstrapServers\": \"20.13.98.172:9094\",\n                        \"topics\": [\n                            \"gplace\"\n                        ],\n                        \"consumer\": {\n                            \"enabled\": true,\n                            \"autoOffsetReset\": \"earliest\"\n                        },\n                        \"producer\": {\n                            \"enabled\": true\n                        }\n                    }\n                }\n            ]\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{management_host}}/management/organizations/DEFAULT/environments/DEFAULT/v4/apis/",
+					"host": [
+						"{{management_host}}"
+					],
+					"path": [
+						"management",
+						"organizations",
+						"DEFAULT",
+						"environments",
+						"DEFAULT",
+						"v4",
+						"apis",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Open (keyless) plan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Keyless\",\n    \"description\": \"Keyless\",\n    \"status\": \"PUBLISHED\",\n    \"characteristics\": [],\n    \"security\": {\n        \"type\": \"key-less\"\n    },\n    \"flows\": [\n        {\n            \"name\": \"All requests\",\n            \"request\": [\n                {\n                    \"name\": \"Rate Limiting\",\n                    \"description\": \"Rate limit\",\n                    \"policy\": \"rate-limit\",\n                    \"configuration\": {\n                        \"addHeaders\": true,\n                        \"rate\": {\n                            \"limit\": 4,\n                            \"periodTime\": 1,\n                            \"periodTimeUnit\": \"MINUTES\"\n                        }\n                    }\n                }\n            ]\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{management_host}}/management/organizations/DEFAULT/environments/DEFAULT/v4/apis/{{api}}/plans",
+					"host": [
+						"{{management_host}}"
+					],
+					"path": [
+						"management",
+						"organizations",
+						"DEFAULT",
+						"environments",
+						"DEFAULT",
+						"v4",
+						"apis",
+						"{{api}}",
+						"plans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create silver (api-key) plan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"plan\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Silver\",\n    \"description\": \"Silver Plan\",\n    \"status\": \"PUBLISHED\",\n    \"characteristics\": [],\n    \"validation\": \"auto\",\n    \"security\": {\n        \"type\": \"api-key\"\n    },\n    \"flows\": [\n        {\n            \"name\": \"All requests\",\n            \"request\": [\n                {\n                    \"name\": \"Rate Limiting\",\n                    \"description\": \"Rate limit\",\n                    \"policy\": \"rate-limit\",\n                    \"configuration\": {\n                        \"addHeaders\": true,\n                        \"rate\": {\n                            \"limit\": 12,\n                            \"periodTime\": 1,\n                            \"periodTimeUnit\": \"MINUTES\"\n                        }\n                    }\n                }\n            ]\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{management_host}}/management/organizations/DEFAULT/environments/DEFAULT/v4/apis/{{api}}/plans",
+					"host": [
+						"{{management_host}}"
+					],
+					"path": [
+						"management",
+						"organizations",
+						"DEFAULT",
+						"environments",
+						"DEFAULT",
+						"v4",
+						"apis",
+						"{{api}}",
+						"plans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start API",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{management_host}}/management/organizations/DEFAULT/environments/DEFAULT/v4/apis/{{api}}/?action=start",
+					"host": [
+						"{{management_host}}"
+					],
+					"path": [
+						"management",
+						"organizations",
+						"DEFAULT",
+						"environments",
+						"DEFAULT",
+						"v4",
+						"apis",
+						"{{api}}",
+						""
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "start"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create an App",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"app\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Dorian\",\n    \"description\": \"My demo App for the Apidays 2022\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{management_host}}/management/organizations/DEFAULT/environments/DEFAULT/applications",
+					"host": [
+						"{{management_host}}"
+					],
+					"path": [
+						"management",
+						"organizations",
+						"DEFAULT",
+						"environments",
+						"DEFAULT",
+						"applications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Subscribe to an API Plan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"subscription\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{management_host}}/management/organizations/DEFAULT/environments/DEFAULT/applications/{{app}}/subscriptions?plan={{plan}}",
+					"host": [
+						"{{management_host}}"
+					],
+					"path": [
+						"management",
+						"organizations",
+						"DEFAULT",
+						"environments",
+						"DEFAULT",
+						"applications",
+						"{{app}}",
+						"subscriptions"
+					],
+					"query": [
+						{
+							"key": "plan",
+							"value": "{{plan}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Subscription",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"apikey\", jsonData[0].key);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{management_host}}/management/organizations/DEFAULT/environments/DEFAULT/v4/apis/{{api}}/subscriptions/{{subscription}}/apikeys",
+					"host": [
+						"{{management_host}}"
+					],
+					"path": [
+						"management",
+						"organizations",
+						"DEFAULT",
+						"environments",
+						"DEFAULT",
+						"v4",
+						"apis",
+						"{{api}}",
+						"subscriptions",
+						"{{subscription}}",
+						"apikeys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Pixel",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Origin",
+						"value": "localhost",
+						"type": "text"
+					},
+					{
+						"key": "X-Gravitee-Api-Key",
+						"value": "{{apikey}}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "X-Gravitee-Api-Key",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"type\":\"set_pixel\",\"x_coord\":1,\"y_coord\":1,\"color\":\"#ffffff\"}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8082/demo/gplace",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"demo",
+						"gplace"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{management_password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{management_username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
