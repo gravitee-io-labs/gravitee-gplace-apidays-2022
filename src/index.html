@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>g/Place Apidays Paris 2022</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="header">
+            <div class="logo">
+                <a href="#"><img src="assets/gravitee_white.png" alt="Gravitee.io Logo"></a>
+            </div>
+            <h1>g/Place Apidays Paris 2022</h1>
+            <nav class="menu">
+                <ul class="list">
+                    <li class="item"><a href="#">g/Place</a></li>
+                    <li class="item"><a href="https://www.gravitee.io/blog/introducing-event-native-api-management"
+                            target="_blank">Learn about Event-Native APIm</a></li>
+                    <li class="item"><a href="https://www.gravitee.io/demo" target="_blank">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="canvas">
+            <div class="loader" id="loader">
+                <div class="spin"></div>
+            </div>
+            <canvas id="gplace"></canvas>
+            <div id="notification"></div>
+        </div>
+        <div class="settings-stats">
+            <h3>API key</h3>
+            <input type="text" name="apikey" id="apikey" placeholder="Your Gravitee.io API key">
+            <h3>Limits</h3>
+            <div class="limits">
+                <div>Limit : <span id="limit"></span></div>
+                <div>Remaining : <span id="remaining"></span></div>
+                <div>Reset date : <span id="reset"></span></div>
+            </div>
+
+        </div>
+        <div class="color-palette">
+            <h3>Color Palette</h3>
+            <div class="list" id="color-picker">
+                <button class="color-button"></button>
+                <button class="color-button"></button>
+                <button class="color-button"></button>
+                <button class="color-button"></button>
+                <button class="color-button"></button>
+                <button class="color-button"></button>
+                <button class="color-button"></button>
+                <button class="color-button"></button>
+                <button class="color-button"></button>
+                <button class="color-button"></button>
+                <button class="color-button"></button>
+                <button class="color-button"></button>
+            </div>
+        </div>
+        <div class="footer">
+            <a href="https://www.gravitee.io/blog/introducing-event-native-api-management" target="_blank">Learn more
+                about Event-Native API Management</a> - Made with &hearts; by <a href="https://github.com/dobl1"
+                target="_blank">Dorian</a> - <a href="https://www.gravitee.io/" target="_blank">Gravitee.io</a>.
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
