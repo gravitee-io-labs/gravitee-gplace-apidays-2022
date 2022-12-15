@@ -1,0 +1,10 @@
+# Full config example : https://docs.redpanda.com/docs/console/reference/config/#sample-configuration
+kafka:
+  schemaRegistry:
+    enabled: true
+    urls: ["http://schema-registry:8085"]
+connect:
+  enabled: true
+  clusters:
+    - name: connect 
+      url: http://connect:8083
