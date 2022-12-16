@@ -102,8 +102,6 @@ canvas.addEventListener("dblclick", function (event) {
     let y = Math.floor((event.clientY - board.top) / (panzoom.getScale() * canvas.clientWidth / canvas.width))
 
     // Sends newly painted pixel information to Gravitee
-    console.log("Sending pixel")
-
     let apikey = document.getElementById('apikey').value;
     let headers = {};
 
@@ -116,15 +114,11 @@ canvas.addEventListener("dblclick", function (event) {
         headers: headers,
         body: JSON.stringify({ type: "set_pixel", x_coord: x, y_coord: y, color: current_color })
     }).then(response => {
-        console.log(response);
-
         let limit = response.headers.get('X-Rate-Limit-Limit');
         let remaining = response.headers.get('X-Rate-Limit-Remaining');
         let dateRaw = response.headers.get('X-Rate-Limit-Reset');
 
         let date = new Date(parseInt(dateRaw)).toLocaleString();
-
-        console.log(date);
 
         document.getElementById('limit').textContent = limit;
         document.getElementById('remaining').textContent = remaining;
@@ -153,7 +147,6 @@ evtSource.onmessage = function (event) {
     document.getElementById("loader").style.display = "none";
     const data = JSON.parse(event.data)
     if (data.type === "set_pixel") {
-        console.log("Receiving pixel from server")
         ctx.fillStyle = data.color
         ctx.fillRect(data.x_coord, data.y_coord, 1, 1)
     }
